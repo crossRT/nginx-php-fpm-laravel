@@ -11,9 +11,9 @@ Thus I decide to clone this repo and customize it further to suit for my laravel
 * I like to `envsub` to generate the `.env` when starting the container.
 
 ## What's included
-* alpine 3.18.3
-* nginx 1.24.0
-* php-fpm 8.1.22
+* alpine 3.23.5
+* nginx 1.28.3-r4
+* php-fpm 8.5.6
 * php extensions to run laravel: php-pdo php-pdo_mysql php-tokenizer php-fileinfo
 * linux binary I like to use: bash nano gettext
 * alias ls='ls -lh' by default
@@ -43,6 +43,7 @@ CMD /var/www/html/docker/init.sh
 ### Versions
 |image tag| alpine | php | nginx | notes |
 |--|--|--|--| -- |
+|alpine3.23-php8.5-1|3.23.5|8.5.6|1.28.3-r4|
 |alpine3.19-php8.3-3|3.19.1|8.3.14|1.24.0| add bcmath extension
 |alpine3.18-php8.1-6|3.18.3|8.1.22|1.24.0| add dcron
 |alpine3.18-php8.1-5|3.18.3|8.1.22|1.24.0| add php81-xmlwriter php81-zip php81-simplexml php81-iconv
