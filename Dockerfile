@@ -3,7 +3,7 @@ LABEL Maintainer="crossRT <crossRT@gmail.com>" \
   Description="Docker image ready for Laravel"
 
 # Install packages and remove default server definition
-RUN apk --no-cache add php85 php85-fpm php85-opcache php85-mysqli php85-json php85-openssl php85-curl \
+RUN apk --no-cache add php85 php85-fpm php84-opcache php85-mysqli php85-json php85-openssl php85-curl \
   php85-zlib php85-xml php85-phar php85-intl php85-dom php85-xmlreader php85-ctype php85-session php85-posix \
   php85-pdo php85-pdo_mysql php85-tokenizer php85-fileinfo bash nano gettext \
   php85-mbstring php85-gd php85-pcntl nginx supervisor curl \
@@ -34,11 +34,11 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /var/www/html
 
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
-RUN chown -R nobody.nobody /var/www/html && \
-  chown -R nobody.nobody /run && \
-  chown -R nobody.nobody /var/lib/nginx && \
-  chown -R nobody.nobody /var/log/nginx && \
-  chown -R nobody.nobody /var/log/php85/
+RUN chown -R nobody:nobody /var/www/html && \
+  chown -R nobody:nobody /run && \
+  chown -R nobody:nobody /var/lib/nginx && \
+  chown -R nobody:nobody /var/log/nginx && \
+  chown -R nobody:nobody /var/log/php85/
 
 RUN ln -s /usr/bin/php85 /usr/bin/php
 RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
