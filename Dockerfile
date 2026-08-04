@@ -41,7 +41,7 @@ RUN chown -R nobody:nobody /var/www/html && \
   chown -R nobody:nobody /var/log/php85/
 
 RUN ln -s /usr/bin/php85 /usr/bin/php
-RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
+RUN ln -s /usr/sbin/php-fpm85 /usr/sbin/php-fpm
 
 # Switch to use a non-root user from here on
 USER nobody
