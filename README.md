@@ -1,4 +1,5 @@
 # Docker image ready for Laravel
+---
 
 [TrafeX/docker-php-nginx](https://github.com/TrafeX/docker-php-nginx) is the origin of this repo. It's very minimal and has a very good performance of running php server. Most important thing is I have learn so many things from his setup <3.
 
@@ -41,12 +42,26 @@ CMD /var/www/html/docker/init.sh
 ```
 
 ### Versions
+Each actively maintained alpine/php combination has its own Dockerfile under
+`versions/<image-tag>/Dockerfile`, and the folder name is the docker image tag. All of them build with
+the repo root as the build context, so they share the top-level `config/` files instead of duplicating
+them. There is no separate revision suffix on the tag (no more `-1`, `-2`, ...) — a fix to a version is
+just a commit to that folder's Dockerfile, and history lives in `git log`, not in the tag name.
+
+Images are built and pushed to Docker Hub manually, per version, from the repo root:
+
+```
+# build
+docker build --platform=linux/amd64 -f versions/alpine3.23-php8.5/Dockerfile -t crossrt/nginx-php-fpm-laravel:alpine3.23-php8.5 .
+
+# push
+docker push crossrt/nginx-php-fpm-laravel:alpine3.23-php8.5
+```
+
 |image tag| alpine | php | nginx | notes |
 |--|--|--|--| -- |
-|alpine3.23-php8.5-1|3.23.5|8.5.6|1.28.3-r4|
-|alpine3.19-php8.3-3|3.19.1|8.3.14|1.24.0| add bcmath extension
-|alpine3.18-php8.1-6|3.18.3|8.1.22|1.24.0| add dcron
-|alpine3.18-php8.1-5|3.18.3|8.1.22|1.24.0| add php81-xmlwriter php81-zip php81-simplexml php81-iconv
-|alpine3.18-php8.1-2|3.18.3|8.1.22|1.24.0| add php81-pcntl
-|alpine3.18-php8.1|3.18.3|8.1.22|1.24.0|
-|alpine3.13-php7.4|3.13.12|7.4.26|1.18.0|
+|alpine3.24-php8.5|3.24.1|8.5.10|1.30.4-r1|
+|alpine3.23-php8.5|3.23.5|8.5.6|1.28.3-r4|
+
+Older tags (`alpine3.19-php8.3-3`, `alpine3.18-php8.1-*`, `alpine3.13-php7.4`, ...) are still available as
+git tags from before this repo moved to the `versions/` folder layout, but are no longer maintained.

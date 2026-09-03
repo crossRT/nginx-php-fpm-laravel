@@ -1,7 +1,9 @@
 version: '3.5'
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: versions/alpine3.23-php8.5/Dockerfile
   sut:
     image: alpine:3.12
     depends_on:
