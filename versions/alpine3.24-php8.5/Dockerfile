@@ -1,15 +1,55 @@
 FROM alpine:3.24.1
 LABEL Maintainer="crossRT <crossRT@gmail.com>" \
-  Description="Docker image ready for Laravel"
+  Description="Production-ready container image for Laravel"
 
-# Install packages and remove default server definition
-RUN apk --no-cache add php85 php85-fpm php84-opcache php85-mysqli php85-json php85-openssl php85-curl \
-  php85-zlib php85-xml php85-phar php85-intl php85-dom php85-xmlreader php85-ctype php85-session php85-posix \
-  php85-pdo php85-pdo_mysql php85-tokenizer php85-fileinfo bash nano gettext \
-  php85-mbstring php85-gd php85-pcntl nginx supervisor curl \
-  php85-xmlwriter php85-zip php85-simplexml php85-iconv \
-  php85-dev php85-pear php85-pecl-redis php85-bcmath \
-  gcc musl-dev make
+# Install essential packages
+RUN apk --no-cache add bash \
+  gettext \
+  nano \
+  nginx \
+  supervisor
+
+# Install php related packages
+RUN apk --no-cache add php85 \
+  php85-bcmath \
+  php85-ctype \
+  php85-curl \
+  php85-dev \
+  php85-dom \
+  php85-fileinfo \
+  php85-fpm \
+  php85-gd \
+  php85-iconv \
+  php85-intl \
+  php85-json \
+  php85-mbstring \
+  php85-mysqli \
+  php85-openssl \
+  php85-pcntl \
+  php85-pdo \
+  php85-pdo_mysql \
+  php85-pear \
+  php85-pecl-redis \
+  php85-phar \
+  php85-posix \
+  php85-session \
+  php85-simplexml \
+  php85-tokenizer \
+  php85-xml \
+  php85-xmlreader \
+  php85-xmlwriter \
+  php85-zip \
+  php85-zlib
+
+# Opcache install here
+# because opcache doesn't have build for php8.5
+RUN apk --no-cache add php84-opcache
+
+# install curl
+# curl is not installed from alpine package
+# because the default curl binary 8.22 comes with alpine 3.24 is buggy
+COPY --from=crossrt/alpine:3.24-with-curl-fix /usr/local/bin/curl /usr/local/bin/curl
+COPY --from=crossrt/alpine:3.24-with-curl-fix /usr/local/lib/ /usr/local/lib/
 
 # install dcron
 RUN apk add --no-cache dcron libcap
